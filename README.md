@@ -4,4 +4,4 @@ Initial functionality: REST API with endpoints to get all accounts from MongoDB 
 
 Upcoming features:
   - add authentication
-  - add encryption
+  - hash passwords before they're saved to the db
