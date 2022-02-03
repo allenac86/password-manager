@@ -6,3 +6,7 @@ To run:
   - clone repo
   - run node index.js 
   - follow the prompts
+
+Upcoming features:
+  - add basic CRUD operations and save to MongoDB cloud storage
+  - add authentication
