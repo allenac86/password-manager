@@ -1,12 +1,15 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 const {
-	getAllAccounts,
-	createAccount,
-} = require('../controllers/account-controller');
+  getAllAccounts,
+  createAccount,
+  getAccount,
+  updateAccount,
+  deleteAccount,
+} = require("../controllers/account-controller");
 
-router.route('/').get(getAllAccounts).post(createAccount);
-// router.route('/:id').get().patch().delete();
+router.route("/").get(getAllAccounts).post(createAccount);
+router.route("/:id").get(getAccount).patch(updateAccount).delete(deleteAccount);
 
 module.exports = router;

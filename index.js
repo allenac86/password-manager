@@ -1,6 +1,8 @@
 const express = require("express");
 const connectToDB = require("./database/database");
 const accountRoutes = require("./routes/account-routes");
+const notFound = require("./middleware/notFound");
+const errorHandler = require("./middleware/errorHandler");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 4200;
@@ -13,6 +15,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/passwords", accountRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 const start = async () => {
   try {

@@ -1,6 +1,7 @@
 const Account = require("../models/Account");
 const asyncHandler = require("../middleware/asyncHandler");
 const generatePassword = require("../password");
+const { createCustomError } = require("../errors/CustomError");
 
 const getAllAccounts = asyncHandler(async (req, res) => {
   const accounts = await Account.find({});
@@ -16,7 +17,46 @@ const createAccount = asyncHandler(async (req, res) => {
   res.status(201).json({ msg: "Account created", account });
 });
 
+const getAccount = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const account = await Account.findOne({ _id: id });
+
+  if (!account) {
+    return next(createCustomError(`no account found with id: ${id}`, 404));
+  }
+
+  res.status(200).json({ account });
+});
+
+const updateAccount = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const account = await Account.findOneAndUpdate({ _id: id }, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!account) {
+    return next(createCustomError(`no account found with id: ${id}`, 404));
+  }
+
+  res.status(200).json({ account });
+});
+
+const deleteAccount = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const account = await Account.findOneAndDelete({ _id: id });
+
+  if (!account) {
+    return next(createCustomError(`No account found with id: ${id}`, 404));
+  }
+
+  res.status(200).json({ message: "account deleted", account });
+});
+
 module.exports = {
   getAllAccounts,
   createAccount,
+  getAccount,
+  updateAccount,
+  deleteAccount,
 };
