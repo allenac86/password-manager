@@ -1,8 +1,9 @@
 export default class Account {
-  constructor(url, username, password) {
+  constructor(url, username, password, date) {
     this.url = url;
     this.username = username;
     this.password = password;
+    this.date = date;
   }
 
   editURL(newUrl) {
@@ -16,6 +17,7 @@ export default class Account {
       URL: this.url,
       username: this.username,
       password: this.password,
+      createdAt: this.date,
     };
   }
 }
