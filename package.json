@@ -1,0 +1,17 @@
+{
+  "name": "password-manager",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "clipboardy": "^3.0.0",
+    "prompt-sync": "^4.2.0"
+  }
+}
