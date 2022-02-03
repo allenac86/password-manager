@@ -1,19 +1,26 @@
-import PromptSync from "prompt-sync";
-import clipboard from "clipboardy";
+const express = require('express');
+const connectToDB = require('./database/database');
+const accountRoutes = require('./routes/account-routes');
+require('dotenv').config();
 
-import Account from "./Account.js";
-import generatePassword from "./password.js";
-import getDateNow from "./date.js";
+const PORT = process.env.port || 4200;
+const app = express();
 
-const prompt = PromptSync();
+app.use(express.json());
 
-const url = prompt("Enter the URL: ");
-const username = prompt("Enter your username: ");
+app.get('/', (req, res) => {
+	res.redirect('/api/v1/passwords');
+});
 
-const account = new Account(url, username, generatePassword(), getDateNow());
+app.use('/api/v1/passwords', accountRoutes);
 
-clipboard.writeSync(account.password);
+const start = async () => {
+	try {
+		await connectToDB(process.env.MONGO_URI);
+		app.listen(PORT, console.log(`Server listening on port ${PORT}`));
+	} catch (err) {
+		console.error(err);
+	}
+};
 
-console.log("your account details are:");
-console.log(account.accountDetails);
-console.log("your password has been copied to your clipboard");
+start();
