@@ -1,6 +1,6 @@
 # password-manager => under construction
 
-Initial functionality: Follow the prompts to enter the URL and username to automatically generate a 16 digit complex password. The password is copied to your clipboard.
+Initial functionality: REST API with endpoints to get all accounts from MongoDB cloud and create a new account with an auto-generated 18 character complex password.
 
 To run: 
   - clone repo
@@ -8,5 +8,5 @@ To run:
   - follow the prompts
 
 Upcoming features:
-  - add basic CRUD operations and save to MongoDB cloud storage
+  - add ability to edit, retrieve, and delete a single account
   - add authentication
