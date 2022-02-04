@@ -32,6 +32,7 @@ const getAccount = asyncHandler(async (req, res, next) => {
 });
 
 // PATCH single account
+// update the provided properties and leaves the rest alone
 const updateAccount = asyncHandler(async (req, res, next) => {
 	const { id } = req.params;
 	const account = await Account.findOneAndUpdate({ _id: id }, req.body, {
