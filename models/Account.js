@@ -16,7 +16,7 @@ const AccountSchema = new mongoose.Schema({
     type: String,
     required: [true, "must provide password"],
     trim: true,
-    minlength: [15, "password must be at least 15 characters"],
+    minlength: [8, "password must be at least 8 characters"],
     maxlength: [20, "password must not exceed 20 characters"],
   },
   createdOn: {

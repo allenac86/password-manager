@@ -13,6 +13,10 @@ app.use(cors());
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.redirect("/api/v1/passwords-manager/all");
+});
+
 app.use("/api/v1/passwords-manager", accountRoutes);
 
 app.use(notFound);
