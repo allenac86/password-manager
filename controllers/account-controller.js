@@ -1,7 +1,6 @@
 const { Account } = require('../models/Model');
 const asyncHandler = require('../middleware/asyncHandler');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const { createCustomError } = require('../errors/CustomError');
 
 // GET all accounts
@@ -33,12 +32,10 @@ const createAccount = asyncHandler(async (req, res) => {
 		res.status(400).send('password must be between 12 and 20 characters');
 	}
 
-	const hashedPassword = await bcrypt.hash(password, 10);
-
 	const account = await Account.create({
-		url: url,
-		username: username,
-		password: hashedPassword,
+		url,
+		username,
+		password,
 	});
 
 	res.status(201).json({ msg: 'Account created', account });
