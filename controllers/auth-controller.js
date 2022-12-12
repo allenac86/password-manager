@@ -16,17 +16,19 @@ const createUser = asyncHandler(async (req, res) => {
 
 	const foundUser = await User.findOne({ email: email });
 
-	if (foundUser) res.status(403).send('user already exists');
+	if (foundUser) {
+		res.status(403).send('user already exists');
+	} else {
+		const hashedPassword = await bcrypt.hash(password, 10);
+		const username = email.trim().split('@')[0];
+		const user = await User.create({
+			email: email,
+			password: hashedPassword,
+			username: username,
+		});
 
-	const hashedPassword = await bcrypt.hash(password, 10);
-	const username = email.trim().split('@')[0];
-	const user = await User.create({
-		email: email,
-		password: hashedPassword,
-		username: username,
-	});
-
-	res.status(201).json({ msg: 'User created', user });
+		res.status(201).json({ msg: 'User created', user });
+	}
 });
 
 const userLogin = asyncHandler(async (req, res) => {
