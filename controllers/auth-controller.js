@@ -12,6 +12,7 @@ const userSignup = asyncHandler(async (req, res) => {
 
 	if (password.length > 20 || password.length < 12) {
 		res.status(400).send('password must be between 12 and 20 characters');
+		return;
 	}
 
 	const foundUser = await User.findOne({ email: email });
@@ -35,7 +36,10 @@ const userLogin = asyncHandler(async (req, res) => {
 	const { email, password } = req.body;
 	const user = await User.findOne({ email });
 
-	if (!user) res.status(400).send('invalid email');
+	if (!user) {
+		res.status(400).send('invalid email');
+		return;
+	}
 
 	if (await bcrypt.compare(password, user.password)) {
 		const accessToken = generateAccessToken({ user: email });
@@ -54,13 +58,33 @@ const userLogout = asyncHandler(async (req, res) => {
 
 	if (!foundToken) {
 		res.status(400).send('token not found');
+		return;
 	}
 
 	res.status(204).send('logout successful');
+});
+
+const refreshToken = asyncHandler(async (req, res) => {
+	const { email, token } = req.body;
+	const foundToken = await Token.findOneAndDelete({ token: token });
+
+	if (!foundToken) {
+		res.status(400).send('token not found');
+	}
+
+	jwt.verify(foundToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+		if (err) res.status(403).send('invalid token');
+	});
+
+	res.json({
+		accessToken: generateAccessToken({ user: email }),
+		refreshToken: generateRefreshToken({ user: email }),
+	});
 });
 
 module.exports = {
 	userSignup,
 	userLogin,
 	userLogout,
+	refreshToken,
 };
