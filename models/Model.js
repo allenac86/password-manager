@@ -46,7 +46,16 @@ const UserSchema = new mongoose.Schema({
 	},
 });
 
+const TokenSchema = new mongoose.Schema({
+	token: {
+		type: String,
+		required: [true, 'refresh token is required'],
+		trim: true,
+	},
+});
+
 const Account = mongoose.model('Account', AccountSchema);
 const User = mongoose.model('User', UserSchema);
+const Token = mongoose.model('Token', TokenSchema);
 
-module.exports = { Account, User };
+module.exports = { Account, User, Token };

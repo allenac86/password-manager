@@ -1,13 +1,13 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
-const { User } = require('../models/Model');
+const { User, Token } = require('../models/Model');
 const asyncHandler = require('../middleware/asyncHandler');
 const {
 	generateAccessToken,
 	generateRefreshToken,
 } = require('../middleware/generateTokens');
 
-const createUser = asyncHandler(async (req, res) => {
+const userSignup = asyncHandler(async (req, res) => {
 	const { email, password } = req.body;
 
 	if (password.length > 20 || password.length < 12) {
@@ -32,14 +32,14 @@ const createUser = asyncHandler(async (req, res) => {
 });
 
 const userLogin = asyncHandler(async (req, res) => {
-	const { email } = req.body;
+	const { email, password } = req.body;
 	const user = await User.findOne({ email });
 
-	if (!user) res.status(401).send('incorrect email or password');
+	if (!user) res.status(400).send('invalid email');
 
-	if (await bcrypt.compare(req.body.password, user.password)) {
-		const accessToken = generateAccessToken({ user: req.body.name });
-		const refreshToken = generateRefreshToken({ user: req.body.name });
+	if (await bcrypt.compare(password, user.password)) {
+		const accessToken = generateAccessToken({ user: email });
+		const refreshToken = await generateRefreshToken({ user: email });
 
 		res.json({ accessToken, refreshToken });
 	} else {
@@ -47,7 +47,20 @@ const userLogin = asyncHandler(async (req, res) => {
 	}
 });
 
+const userLogout = asyncHandler(async (req, res) => {
+	const foundToken = await Token.findOneAndDelete({
+		token: req.body.token,
+	});
+
+	if (!foundToken) {
+		res.status(400).send('token not found');
+	}
+
+	res.status(204).send('logout successful');
+});
+
 module.exports = {
-	createUser,
+	userSignup,
 	userLogin,
+	userLogout,
 };
