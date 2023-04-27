@@ -1,5 +1,6 @@
 require('dotenv').config();
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { User, Token } = require('../models/Model');
 const asyncHandler = require('../middleware/asyncHandler');
 const {
@@ -37,7 +38,7 @@ const userLogin = asyncHandler(async (req, res) => {
 	const user = await User.findOne({ email });
 
 	if (!user) {
-		res.status(400).send('invalid email');
+		res.status(400).send('invalid credential(s)');
 		return;
 	}
 
@@ -72,9 +73,16 @@ const refreshToken = asyncHandler(async (req, res) => {
 		res.status(400).send('token not found');
 	}
 
-	jwt.verify(foundToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-		if (err) res.status(403).send('invalid token');
-	});
+	jwt.verify(
+		foundToken.token,
+		process.env.REFRESH_TOKEN_SECRET,
+		(err, user) => {
+			if (err) {
+				console.log(err);
+				res.status(403).send('invalid token');
+			}
+		}
+	);
 
 	res.json({
 		accessToken: generateAccessToken({ user: email }),

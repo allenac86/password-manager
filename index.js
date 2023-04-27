@@ -4,11 +4,8 @@ const connectToDB = require('./database/database');
 const notFound = require('./middleware/notFound');
 const errorHandler = require('./middleware/errorHandler');
 const cors = require('cors');
-const asyncHandler = require('./middleware/asyncHandler');
-const bcrypt = require('bcrypt');
 const accountRoutes = require('./routes/account-routes');
 const authRoutes = require('./routes/auth-routes');
-const { User } = require('./models/Model');
 
 const PORT = process.env.API_PORT || 8000;
 const app = express();
