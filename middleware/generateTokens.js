@@ -8,7 +8,7 @@ const generateAccessToken = user => {
 
 const generateRefreshToken = async user => {
 	const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
-		expiresIn: '1440m',
+		expiresIn: '60m',
 	});
 
 	const savedToken = await Token.create({

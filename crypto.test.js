@@ -3,14 +3,14 @@ const { encrypt, decrypt } = require('./crypto');
 const testObj = {
 	msg: 'Hello World!',
 	date: '12/14/2022',
-	name: 'shady',
+	name: 'skele',
 };
 
 const hash = encrypt(
 	JSON.stringify({
 		msg: 'Hello World!',
 		date: '12/14/2022',
-		name: 'shady',
+		name: 'skele',
 	})
 );
 

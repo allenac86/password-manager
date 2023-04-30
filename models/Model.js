@@ -52,6 +52,10 @@ const TokenSchema = new mongoose.Schema({
 		required: [true, 'refresh token is required'],
 		trim: true,
 	},
+	createdOn: {
+		type: String,
+		default: getDateNow(),
+	},
 });
 
 const Account = mongoose.model('Account', AccountSchema);
