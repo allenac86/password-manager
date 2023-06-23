@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const getDateNow = require('../date');
+const getDateNow = require('../utils/date');
 
 const AccountSchema = new mongoose.Schema({
 	url: {

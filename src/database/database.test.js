@@ -9,4 +9,4 @@ describe('database tests', () => {
     expect(db_connection).toBeDefined();
     mongoose.connection.close();
   });
-});
+}); // end describe('database tests')

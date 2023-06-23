@@ -4,9 +4,9 @@
 	"description": "password manager app",
 	"main": "index.js",
 	"scripts": {
-		"start": "node index.js",
-		"dev": "nodemon index.js",
-		"test": "jest --detectOpenHandles --forceExit"
+		"start": "node src/index.js",
+		"dev": "nodemon src/index.js",
+		"test": "jest"
 	},
 	"keywords": [],
 	"author": "Adam Allen",
@@ -22,5 +22,16 @@
 	},
 	"devDependencies": {
 		"jest": "^29.3.1"
+	},
+	"jest": {
+		"collectCoverage": true,
+		"collectCoverageFrom": [
+			"src/**/*.js",
+			"!**/node_modules/**",
+			"!**/vendor/**",
+			"!**/coverage/**"
+		],
+		"detectOpenHandles": true,
+		"forceExit": true
 	}
 }
