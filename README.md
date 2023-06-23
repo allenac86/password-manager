@@ -1,6 +1,4 @@
 # password-manager => under construction
 
-Initial functionality: REST API with endpoints to get all accounts from MongoDB cloud and create a new account with an auto-generated 18 character complex password.
-
 Upcoming features:
-  - add authentication and encryption
+  - Integrate encryption module in the controllers to secure data in transit
