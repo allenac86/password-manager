@@ -54,4 +54,4 @@ describe('Schemas Models', () => {
     const token = new Token(invalidToken);
     await expect(token.validate()).rejects.toThrow();
   });
-}); // end describe('Data Schemas')
+});
