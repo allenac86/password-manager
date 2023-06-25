@@ -1,14 +1,29 @@
-const customError = require('./CustomError');
+const { CustomError, createCustomError } = require('./customError');
 
 describe('CustomError', () => {
-  test('the CustomError class extends the Error class', () => {
-    const error = customError.createCustomError('Test error 1', 200);
-    expect(error instanceof Error).toBe(true);
-  });
+  it('should create a CustomError object with the provided message and statusCode', () => {
+    const message = 'Test error message';
+    const statusCode = 404;
 
-  test('the correct error message is returned', () => {
-    const error = customError.createCustomError('Test error', 400);
-    expect(error.message).toBe('Test error');
-    expect(error.statusCode).toBe(400);
-  })
-}); // end describe('CustomError')
+    const error = new CustomError(message, statusCode);
+
+    expect(error).toBeInstanceOf(Error);
+    expect(error).toBeInstanceOf(CustomError);
+    expect(error.message).toBe(message);
+    expect(error.statusCode).toBe(statusCode);
+  });
+});
+
+describe('createCustomError', () => {
+  it('should create a CustomError object with the provided message and statusCode', () => {
+    const message = 'Test error message';
+    const statusCode = 404;
+
+    const error = createCustomError(message, statusCode);
+
+    expect(error).toBeInstanceOf(Error);
+    expect(error).toBeInstanceOf(CustomError);
+    expect(error.message).toBe(message);
+    expect(error.statusCode).toBe(statusCode);
+  });
+});
