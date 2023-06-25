@@ -78,7 +78,6 @@ const refreshToken = asyncHandler(async (req, res) => {
 		process.env.REFRESH_TOKEN_SECRET,
 		(err, user) => {
 			if (err) {
-				console.log(err);
 				res.status(403).send('invalid token');
 			}
 		}

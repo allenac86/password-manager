@@ -35,5 +35,3 @@ module.exports = {
 	encrypt,
 	decrypt,
 };
-
-console.log(secretKey);
