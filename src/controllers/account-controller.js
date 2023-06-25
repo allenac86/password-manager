@@ -1,7 +1,7 @@
 const { Account } = require('../models/Model');
 const asyncHandler = require('../middleware/asyncHandler');
 const jwt = require('jsonwebtoken');
-const { createCustomError } = require('../errors/CustomError');
+const { createCustomError } = require('../errors/customError');
 
 // GET all accounts
 const getAllAccounts = asyncHandler(async (req, res) => {
@@ -22,16 +22,22 @@ const getAllAccounts = asyncHandler(async (req, res) => {
 // POST new account
 const createAccount = asyncHandler(async (req, res) => {
 	const { url, username, password } = req.body;
+	let errMsg = 'invalid token';
+	let statusCode = 400;
 
 	try {
 		const token = req.headers['authorization'].split(' ')[1];
 
 		jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-			if (err) res.status(403).send('invalid token');
+			if (err) {
+				throw new Error(errMsg);
+			}
 		});
 
 		if (password.length > 20 || password.length < 12) {
-			res.status(400).send('password must be between 12 and 20 characters');
+			errMsg = 'password must be between 12 and 20 characters';
+			statusCode = 400;
+			throw new Error(errMsg);
 		}
 
 		const account = await Account.create({
@@ -42,7 +48,7 @@ const createAccount = asyncHandler(async (req, res) => {
 
 		res.status(201).json({ msg: 'Account created', account });
 	} catch (err) {
-		res.status(400).send('token not present');
+		res.status(statusCode).send(errMsg);
 	}
 });
 
