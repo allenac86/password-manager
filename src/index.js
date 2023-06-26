@@ -1,9 +1,9 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const connectToDB = require('./database/database');
 const notFound = require('./middleware/notFound');
 const errorHandler = require('./middleware/errorHandler');
-const cors = require('cors');
 const accountRoutes = require('./routes/account-routes');
 const authRoutes = require('./routes/auth-routes');
 
@@ -25,13 +25,10 @@ app.use(notFound);
 app.use(errorHandler);
 
 // connect to mongoDB before server starts or throw an error
-const start = async () => {
-	try {
-		await connectToDB(process.env.MONGO_URI);
+connectToDB(process.env.MONGO_URI)
+	.then(() => {
 		app.listen(PORT, console.log(`Server listening on port ${PORT}`));
-	} catch (err) {
+	})
+	.catch((err) => {
 		console.error(err);
-	}
-};
-
-start();
+	});
